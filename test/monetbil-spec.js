@@ -1,6 +1,11 @@
 'use strict';
 
-var assert = require('chai').assert
+var chai = require('chai');
+var assert = chai.assert
+var expect = chai.expect
+const chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
+
 var nock = require('nock');
 var MonetbilClient = require('../index');
 
@@ -80,54 +85,51 @@ describe('MonetbilClient', function() {
             assert.typeOf(client.getPaymentUrl, 'function');
         });
 
-        it('should throw Error when getting paymentUrl without paymentData', function() {
+        it('should throw Error when getting paymentUrl without paymentData',  async function() {
             
             const client = new MonetbilClient(options); 
-            
-            assert.throws(() => client.getPaymentUrl(), Error, 'Payment Data is required');
+            await expect(client.getPaymentUrl()).to.be.rejectedWith("Payment Data is required");
         });
 
-        it('should throw Error when getting paymentUrl with null paymentData', function() {
+        it('should throw Error when getting paymentUrl with null paymentData', async function() {
 
             const client = new MonetbilClient(options);
-            
-            assert.throws(() => client.getPaymentUrl(null), Error, 'Payment Data is required');
+            await expect(client.getPaymentUrl(null)).to.be.rejectedWith("Payment Data is required");
         });
 
-        it('should throw Error when getting paymentUrl with undefined paymentData', function() {
+        it('should throw Error when getting paymentUrl with undefined paymentData', async function() {
 
             const client = new MonetbilClient(options);
-
-            assert.throws(() => client.getPaymentUrl(undefined), Error, 'Payment Data is required');
+            await expect(client.getPaymentUrl(undefined)).to.be.rejectedWith("Payment Data is required");
         });
 
-        it('should throw Error when getting paymentUrl with empty paymentData', function() {
+        it('should throw Error when getting paymentUrl with empty paymentData', async function() {
             
             const paymentData = {};
             const client = new MonetbilClient(options);
-            assert.throws(() => client.getPaymentUrl(paymentData), Error, 'Payment Data is required');
+            await expect(client.getPaymentUrl(paymentData)).to.be.rejectedWith("Payment Data is required");
         });
 
-        it('should throw Error when try to get paymentUrl without a amount', function() {
+        it('should throw Error when try to get paymentUrl without a amount', async function() {
 
             const paymentData = { anyData: '' };
             const client = new MonetbilClient(options);
-            assert.throws(() => client.getPaymentUrl(paymentData), Error, 'Payment amount is value is required and should be a valid number > 0');
+            await expect(client.getPaymentUrl(paymentData)).to.be.rejectedWith("Payment amount is value is required and should be a valid number > 0");
         });
 
         // TODO require payment Amount > 0 remove this test if the api doesn't require this
-        it('should throw Error when trying to get paymentUrl with amount = 0', function() {
+        it('should throw Error when trying to get paymentUrl with amount = 0', async function() {
 
             const paymentData = { amount: 0 };
             const client = new MonetbilClient(options);
-            assert.throws(() => client.getPaymentUrl(paymentData), Error, 'Payment amount is value is required and should be a valid number > 0');
+            await expect(client.getPaymentUrl(paymentData)).to.be.rejectedWith("Payment amount is value is required and should be a valid number > 0");
         });
         
-        it('should throw Error when trying to get paymentUrl with amount = aaaa', function() {
+        it('should throw Error when trying to get paymentUrl with amount = aaaa', async function() {
 
             const paymentData = { amount: 'aaa' };
             const client = new MonetbilClient(options);
-            assert.throws(() => client.getPaymentUrl(paymentData), Error, 'Payment amount is value is required and should be a valid number > 0');
+            await expect(client.getPaymentUrl(paymentData)).to.be.rejectedWith("Payment amount is value is required and should be a valid number > 0");
         });
 
         it('should get paymentUrl via a post request',async function() {

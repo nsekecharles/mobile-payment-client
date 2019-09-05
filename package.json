@@ -4,7 +4,6 @@
   "description": "nodejs rest client to interact with monetbil api",
   "main": "index.js",
   "scripts": {
-    //"test": "nyc --reporter=text mocha"
     "test": "mocha"
   },
   "author": "nseke charles",

@@ -1,0 +1,25 @@
+{
+  "name": "monetbil-client",
+  "version": "1.0.0",
+  "description": "nodejs rest client to interact with monetbil api",
+  "main": "index.js",
+  "scripts": {
+    "test": "nyc --reporter=text mocha"
+  },
+  "author": "nseke charles",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "lib/"
+  ],
+  "dependencies": {
+    "axios": "^0.19.0",
+    "object-assign": "^4.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.2.1",
+    "mocha": "^6.2.0",
+    "nock": "^10.0.6",
+    "nyc": "^14.1.1"
+  }
+}
